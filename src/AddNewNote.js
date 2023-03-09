@@ -2,6 +2,16 @@ import React, { useState, useRef } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
+
+const modules = {
+  toolbar: [
+    [{ header: [1, 2, 3, false] }],
+    ["bold", "italic", "underline", "link"],
+    [{ list: "ordered" }, { list: "bullet" }],
+    ["clean"],
+  ],
+};
+
 function AddNewNote({ selectedNote, deleteNote, updateNote, getSelectedNote }) {
   const [noteTitle, setNoteTitle] = useState("");
   const [noteBody, setNoteBody] = useState("");
@@ -42,13 +52,7 @@ function AddNewNote({ selectedNote, deleteNote, updateNote, getSelectedNote }) {
     setEditMode(false);
     noteBodyRef.current.getEditor().enable();
   };
-  
-  const handleTitleKeyPress = (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      noteBodyRef.current.focus();
-    }
-  };
+
 
   const handleDateTimeChange = (event) => {
     setNoteDateTime(event.target.value);
@@ -63,7 +67,6 @@ function AddNewNote({ selectedNote, deleteNote, updateNote, getSelectedNote }) {
               type="text"
               value={noteTitle || getSelectedNote().title}
               onChange={handleTitleChange}
-              onKeyPress={handleTitleKeyPress}
               disabled={editMode}
             />
             {editMode ? (
@@ -104,14 +107,5 @@ function AddNewNote({ selectedNote, deleteNote, updateNote, getSelectedNote }) {
 
   );
 }
-
-const modules = {
-  toolbar: [
-    [{ header: [1, 2, 3, false] }],
-    ["bold", "italic", "underline", "link"],
-    [{ list: "ordered" }, { list: "bullet" }],
-    ["clean"],
-  ],
-};
 
 export default AddNewNote;
